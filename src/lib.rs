@@ -40,54 +40,37 @@ pub fn open_dir(data_dir: &str) {
     println!("Found {0} records!", address_list.len());
 }
 
-fn parse_float(s: &str) -> f64 {
-    match s.trim() {
-        "" => 0.0,
-        _ => match s.parse::<f64>() {
-            Ok(n) => n,
-            Err(_) => 0.0
+fn get_float_record(record: &csv::StringRecord, idx: usize) -> f64 {
+    match record.get(idx) {
+        Some(value) => match value.trim() {
+            "" => 0.0,
+            _ => match value.parse::<f64>() {
+                Ok(n) => n,
+                Err(_) => 0.0
+            },
         },
+        None => 0.0
+    }
+}
+
+fn get_string_record(record: &csv::StringRecord, idx: usize) -> String {
+    match record.get(idx) {
+        Some(value) => value.to_owned(),
+        None => String::new()
     }
 }
 
 fn get_address_from_record(record: &csv::StringRecord) -> Address {
     Address {
-        longitude: match record.get(0) {
-            Some(value) => parse_float(value),
-            None => 0.0
-        },
-        latitude: match record.get(1) {
-            Some(value) => parse_float(value),
-            None => 0.0
-        },
-        number: match record.get(2) {
-            Some(value) => value.to_owned(),
-            None => String::new()
-        },
-        street: match record.get(3) {
-            Some(value) => value.to_owned(),
-            None => String::new()
-        },
-        unit: match record.get(4) {
-            Some(value) => value.to_owned(),
-            None => String::new()
-        },
-        city: match record.get(5) {
-            Some(value) => value.to_owned(),
-            None => String::new()
-        },
-        district: match record.get(6) {
-            Some(value) => value.to_owned(),
-            None => String::new()
-        },
-        region: match record.get(7) {
-            Some(value) => value.to_owned(),
-            None => String::new()
-        },
-        post_code: match record.get(8) {
-            Some(value) => value.to_owned(),
-            None => String::new()
-        },
+        longitude: get_float_record(record, 0),
+        latitude: get_float_record(record, 1),
+        number: get_string_record(record, 2),
+        street: get_string_record(record, 3),
+        unit: get_string_record(record, 4),
+        city: get_string_record(record, 5),
+        district: get_string_record(record, 6),
+        region: get_string_record(record, 7),
+        post_code: get_string_record(record, 8),
         hash: 0,
     }
 }
