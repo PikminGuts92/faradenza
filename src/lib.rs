@@ -32,10 +32,12 @@ pub fn open_dir(data_dir: &str) {
             address_list.push(address);
         }
 
-        println!("Found {0} records!", address_list.len());
+        
 
-        break;
+        //break;
     }
+
+    println!("Found {0} records!", address_list.len());
 }
 
 fn parse_float(s: &str) -> f64 {
@@ -70,19 +72,19 @@ fn get_address_from_record(record: &csv::StringRecord) -> Address {
             Some(value) => value.to_owned(),
             None => String::new()
         },
-        city: match record.get(4) {
+        city: match record.get(5) {
             Some(value) => value.to_owned(),
             None => String::new()
         },
-        district: match record.get(5) {
+        district: match record.get(6) {
             Some(value) => value.to_owned(),
             None => String::new()
         },
-        region: match record.get(6) {
+        region: match record.get(7) {
             Some(value) => value.to_owned(),
             None => String::new()
         },
-        post_code: match record.get(7) {
+        post_code: match record.get(8) {
             Some(value) => value.to_owned(),
             None => String::new()
         },
