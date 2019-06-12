@@ -24,7 +24,7 @@ fn hello_world(req: Request<Body>) -> Response<Body> {
 	};
 
     //Response::new(Body::from("HELLO WORLD"))
-	let res = match (req.method(), "first_path") {
+	let res = match (req.method(), first_path) {
 		(&Method::GET, "stats") => {
 			// TODO: Get stats from service
 			Response::builder()
@@ -36,7 +36,7 @@ fn hello_world(req: Request<Body>) -> Response<Body> {
 			// TODO: Get stats from service
 			Response::builder()
 				.header(header::CONTENT_TYPE, "application/json")
-				.body(Body::from(second_path))
+				.body(Body::from(second_path.to_owned()))
 				.unwrap()
 		},
 		_ => {
