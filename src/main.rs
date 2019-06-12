@@ -9,22 +9,22 @@ fn hello_world(req: Request<Body>) -> Response<Body> {
 	//println!("Path: {}", req.uri().path());
 	//println!("Query {}", req.uri().query().unwrap());
 
-	let pathString = req.uri().path().to_owned();
-	let mut paths: Vec<&str> = pathString.split("/").collect();
+	let path_string: String = req.uri().path().to_owned();
+	let mut paths: Vec<&str> = path_string.split("/").collect();
 	paths.retain(|&p| p != ""); // Removes empty results (issue #33882)
 
-	let firstPath = match &paths.get(0) {
+	let first_path: &str = match &paths.get(0) {
 		Some(value) => value,
 		None => ""
 	};
 
-	let secondPath = match &paths.get(1) {
+	let second_path: &str = match &paths.get(1) {
 		Some(value) => value,
 		None => ""
 	};
-	
+
     //Response::new(Body::from("HELLO WORLD"))
-	let res = match (req.method(), firstPath) {
+	let res = match (req.method(), "first_path") {
 		(&Method::GET, "stats") => {
 			// TODO: Get stats from service
 			Response::builder()
@@ -36,7 +36,7 @@ fn hello_world(req: Request<Body>) -> Response<Body> {
 			// TODO: Get stats from service
 			Response::builder()
 				.header(header::CONTENT_TYPE, "application/json")
-				.body(Body::from(secondPath))
+				.body(Body::from(second_path))
 				.unwrap()
 		},
 		_ => {
