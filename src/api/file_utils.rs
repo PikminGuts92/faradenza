@@ -9,6 +9,7 @@ fn find_files(dir: &Path, files: &mut Vec<String>) -> std::io::Result<()> {
         return Ok(())
     }
 
+    // Recursively finds files and appends path to list
     for entry in fs::read_dir(dir)? {
         let entry = entry?;
         let path = entry.path();
@@ -27,12 +28,11 @@ pub fn get_files(dir: &str, filter: &str) -> Vec<String> {
     let mut files : Vec<String> = Vec::new();
     let path = Path::new(&dir);
 
+    // Gets all files (including in sub directories)
     find_files(&path, &mut files).unwrap();
-
     let regex = Regex::new(&filter).unwrap();
 
-
+    // Filters files based on regex
     files.retain(|t| regex.is_match(&t));
-
     files
 }

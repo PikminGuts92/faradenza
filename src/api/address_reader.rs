@@ -1,5 +1,6 @@
 use crate::api::address::*;
 use csv;
+use std::io;
 use std::path::*;
 
 pub struct AddressReader {
@@ -13,15 +14,18 @@ impl AddressReader {
         }
     }
 
-    pub fn read_from_csv(&mut self, file_path: &String) {
+    pub fn read_from_csv(&mut self, file_path: &String) -> io::Result<()> {
         let rdr = csv::Reader::from_path(Path::new(file_path));
 
-        for result in rdr.unwrap().records() {
-            let record: csv::StringRecord = result.unwrap();
+        for result in rdr?.records() {
+            let record: csv::StringRecord = result?;
 
+            // Converts to address struct and appends to collection
             let address = get_address_from_record(&record);
             self.address_list.push(address);
         }
+
+        Ok(())
     }
 
     pub fn len(&self) -> usize {

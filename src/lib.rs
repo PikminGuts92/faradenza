@@ -27,8 +27,10 @@ pub fn open_dir(data_dir: &str) {
     let count: usize = files.par_iter()
         .map(|f| {
             let mut reader = address_reader::AddressReader::new();
-            reader.read_from_csv(f);
-            reader.len()
+            match reader.read_from_csv(f) {
+                Ok(_) => reader.len(),
+                Err(_) => 0,
+            }
         })
         .sum();
 
