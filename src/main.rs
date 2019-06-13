@@ -1,9 +1,9 @@
 extern crate hyper;
 
-//use faradenza::*;
 use hyper::*;
 use hyper::rt::Future;
 use hyper::service::service_fn_ok;
+use std::env;
 
 fn hello_world(req: Request<Body>) -> Response<Body> {
 	//println!("Path: {}", req.uri().path());
@@ -51,6 +51,15 @@ fn hello_world(req: Request<Body>) -> Response<Body> {
 }
 
 fn main() {
+	let arguments: Vec<String> = env::args().collect();
+
+	if arguments.len() <= 1 {
+		println!("Usage: faradenza.exe D:\\openaddr-collected-us_northeast");
+		return;
+	}
+
+	faradenza::open_dir(&arguments[1]);
+
 	// stats
 	// frequency/%term
 
