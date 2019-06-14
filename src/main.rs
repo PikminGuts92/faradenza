@@ -4,9 +4,6 @@ use std::env;
 
 fn main() {
 	let arguments: Vec<String> = env::args().collect();
-	for a in &arguments {
-		println!("arg: {}", a);
-	}
 
 	if arguments.len() <= 1 {
 		println!("Usage: faradenza.exe D:\\openaddr-collected-us_northeast");

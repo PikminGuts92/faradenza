@@ -13,7 +13,6 @@ pub struct Address {
   pub district: String,
   pub region: String,
   pub post_code: String,
-  pub hash: u64
 }
 
 pub struct Search {

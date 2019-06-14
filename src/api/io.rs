@@ -93,7 +93,6 @@ fn get_address_from_record(record: &csv::StringRecord) -> Address {
         city: get_string_record(record, 5),
         district: get_string_record(record, 6),
         region: get_string_record(record, 7),
-        post_code: get_string_record(record, 8),
-        hash: 0,
+        post_code: get_string_record(record, 8)
     }
 }
