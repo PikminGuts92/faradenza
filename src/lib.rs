@@ -1,12 +1,13 @@
 mod api;
 
-use api::address_reader;
-use api::file_utils;
 use rayon::prelude::*;
 
+pub use api::io::{get_files, read_from_csv};
+pub use api::service::{AddressService};
+
 pub fn open_dir(data_dir: &str) {
-    let filter = "(?i)statewide.csv$";
-    let files = file_utils::get_files(data_dir, filter);
+    let filter = "(?i)vt\\statewide.csv$";
+    let files = get_files(data_dir, filter);
 
     println!("\r\n");
     println!("Found {0} files!", files.len());
@@ -26,13 +27,15 @@ pub fn open_dir(data_dir: &str) {
 
     let count: usize = files.par_iter()
         .map(|f| {
-            let mut reader = address_reader::AddressReader::new();
-            match reader.read_from_csv(f) {
-                Ok(_) => reader.len(),
+            match read_from_csv(f) {
+                Ok(address_list) => address_list.len(),
                 Err(_) => 0,
             }
         })
         .sum();
+    
+
+    //read_from_csv(f)
 
     println!("Found {0} records!", count);
 }
