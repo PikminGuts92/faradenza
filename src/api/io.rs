@@ -1,6 +1,6 @@
 extern crate regex;
 
-use crate::api::address::*;
+use crate::api::search::Address;
 use csv;
 use regex::*;
 use std::fs::{self};

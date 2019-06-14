@@ -1,9 +1,8 @@
 mod api;
 
-use rayon::prelude::*;
-
 pub use api::io::{get_files, read_from_csv};
 pub use api::service::{AddressService};
+pub use api::search::{Search};
 
 pub fn open_dir(data_dir: &str) {
     let filter = "(?i)vt\\statewide.csv$";
@@ -24,7 +23,7 @@ pub fn open_dir(data_dir: &str) {
 
         count += reader.len();
     }*/
-
+/*
     let count: usize = files.par_iter()
         .map(|f| {
             match read_from_csv(f) {
@@ -37,5 +36,5 @@ pub fn open_dir(data_dir: &str) {
 
     //read_from_csv(f)
 
-    println!("Found {0} records!", count);
+    println!("Found {0} records!", count);*/
 }

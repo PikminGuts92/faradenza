@@ -9,7 +9,7 @@ fn main() {
 		return;
 	}
 
-	// Finds files based on input path and filter
+	// Finds files based on arg path and filter
 	let files = faradenza::get_files(&arguments[1], "(?i)vt\\statewide.csv$");
 	if files.len() <= 0 {
 		println!("Found 0 files... can't do anything");
@@ -18,7 +18,10 @@ fn main() {
 		println!("Found {0} files!", files.len());
 	}
 
-	//let mut service = AddressService::new();
+	// Consumes and processes input data
+	let mut search = faradenza::Search::new();
+	search.consume_data(&files);
+	search.process_data();
 
 
 	faradenza::open_dir(&arguments[1]);

@@ -1,31 +1,25 @@
 extern crate hyper;
 
+use crate::api::search::Search;
 use hyper::*;
 use hyper::rt::Future;
 use hyper::service::service_fn_ok;
 use std::sync::{Arc, atomic::{AtomicUsize, Ordering}};
 
 pub struct AddressService {
-
+	search: Search
 }
 
 impl AddressService {
-	pub fn new() -> AddressService {
-		AddressService {
-
-		}
-	}
-
 	pub fn run(&self) -> Result<()> {
 		let addr = ([127, 0, 0, 1], 3000).into();
-		let test = Arc::new(vec![2,3]);
-
+		let async_search = Arc::new(self.search);
+		
 		let router = move || {
-			let t = test.clone();
+			let clone_search = async_search.clone();
 			
-
 			service_fn_ok(move |req| {
-				route_request(req)
+				route_request(&self.search, req)
 			})
 		};
 
@@ -39,7 +33,7 @@ impl AddressService {
 	}
 }
 
-fn route_request(req: Request<Body>) -> Response<Body> {
+fn route_request(search: &Search, req: Request<Body>) -> Response<Body> {
 	let path_string: String = req.uri().path().to_owned();
 	let mut paths: Vec<&str> = path_string.split("/").collect();
 	paths.retain(|&p| p != ""); // Removes empty results (issue #33882)
