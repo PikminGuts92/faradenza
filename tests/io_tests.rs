@@ -17,4 +17,37 @@ mod tests {
       faradenza::filter_strings(&mut paths, &csv_regex);
       assert_eq!(paths.len(), 1);
     }
+
+    #[test]
+    fn calculate_hash_when_same_value_but_different_instance() {
+      let a = String::from("test");
+      let b = String::from("test");
+
+      let a_hash = faradenza::calculate_hash(&a);
+      let b_hash = faradenza::calculate_hash(&b);
+
+      assert_eq!(a_hash, b_hash);
+    }
+
+    #[test]
+    fn calculate_hash_when_different_casing() {
+      let a = String::from("test");
+      let b = String::from("Test");
+
+      let a_hash = faradenza::calculate_hash(&a);
+      let b_hash = faradenza::calculate_hash(&b);
+
+      assert_eq!(a_hash, b_hash);
+    }
+
+    #[test]
+    fn calculate_hash_when_different_words() {
+      let a = String::from("test");
+      let b = String::from("test2");
+
+      let a_hash = faradenza::calculate_hash(&a);
+      let b_hash = faradenza::calculate_hash(&b);
+
+      assert_ne!(a_hash, b_hash);
+    }
 }

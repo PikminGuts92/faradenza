@@ -1,6 +1,7 @@
 extern crate regex;
 
 use crate::api::search::Address;
+use crc::{crc32};
 use csv;
 use regex::*;
 use std::fs::{self};
@@ -30,7 +31,6 @@ pub fn get_files(dir: &str, filter: &Regex) -> Vec<String> {
 
     // Filters files based on regex
     filter_strings(&mut files, &filter);
-    //files.retain(|t| regex.is_match(&t));
     files
 }
 
@@ -56,6 +56,11 @@ fn find_files(dir: &Path, files: &mut Vec<String>) -> std::io::Result<()> {
     }
 
     Ok(())
+}
+
+pub fn calculate_hash(value: &String) -> u32 {
+	let v = value.to_lowercase();
+	crc32::checksum_ieee(v.as_bytes())
 }
 
 fn get_float_record(record: &csv::StringRecord, idx: usize) -> f64 {
