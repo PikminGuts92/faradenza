@@ -16,6 +16,7 @@ fn main() {
 	// Finds files based on arg path and filter
 	let csv_regex = Regex::new(r"(?i)\\vt\\statewide.csv$").unwrap();
 	let files = faradenza::get_files(&arguments[1], &csv_regex);
+	
 	if files.len() <= 0 {
 		println!("Found 0 files... can't do anything");
 		return;
@@ -23,15 +24,24 @@ fn main() {
 		println!("Found {0} files!", files.len());
 	}
 
+	match files.len() {
+		0 => {
+			print!("Found 0 files");
+			return;
+		},
+		1 => {
+			print!("Found 1 file");
+		},
+		len @ _ => {
+			println!("Found {} files", len);
+		}
+	}
+
 	// Consumes and processes input data
 	let mut search = faradenza::Search::new();
 	search.consume_data(&files);
 	search.process_data();
 
-
-	//faradenza::open_dir(&arguments[1]);
-
+	// Starts server
 	faradenza::run_server(search);
-
-	println!("Server started!");
 }
