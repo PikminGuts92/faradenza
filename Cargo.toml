@@ -6,6 +6,6 @@ edition = "2018"
 
 [dependencies]
 csv = "1.0.7"
-hyper = "0.12.29"
 rayon = "1.0.3"
 regex = "1.1.7"
+rocket = "0.4.1"

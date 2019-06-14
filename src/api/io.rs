@@ -21,17 +21,21 @@ pub fn read_from_csv(file_path: &String) -> io::Result<Vec<Address>> {
     Ok(address_list)
 }
 
-pub fn get_files(dir: &str, filter: &str) -> Vec<String> {
+pub fn get_files(dir: &str, filter: &Regex) -> Vec<String> {
     let mut files : Vec<String> = Vec::new();
     let path = Path::new(&dir);
 
     // Gets all files (including in sub directories)
     find_files(&path, &mut files).unwrap();
-    let regex = Regex::new(&filter).unwrap();
 
     // Filters files based on regex
-    files.retain(|t| regex.is_match(&t));
+    filter_strings(&mut files, &filter);
+    //files.retain(|t| regex.is_match(&t));
     files
+}
+
+pub fn filter_strings(files: &mut Vec<String>, regex: &Regex) {
+    files.retain(|x| regex.is_match(&x));
 }
 
 fn find_files(dir: &Path, files: &mut Vec<String>) -> std::io::Result<()> {

@@ -41,4 +41,8 @@ impl Search {
 	pub fn process_data(&self) {
 
 	}
+
+	pub fn get_data(&self) -> String {
+		String::from("Whatever dude")
+	}
 }
