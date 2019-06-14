@@ -30,7 +30,7 @@ fn get_index() -> String {
 #[get("/stats", format = "json")]
 fn get_stats(search: State<Search>) -> Option<Json<Stats>> {
 	Option::Some(Json(Stats {
-		terms: search.get_terms(),
+		terms: search.get_terms_copied(),
 	}))
 }
 

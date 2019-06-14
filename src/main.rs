@@ -29,8 +29,12 @@ fn main() {
 
 	// Consumes and processes input data
 	let mut search = faradenza::Search::new();
+	println!("\r\nParsing files...");
+
 	search.consume_data(&files);
+	println!("Parsed {} total records with {} unique terms", search.get_record_count(), search.get_term_count());
 
 	// Starts server
+	println!("\r\nStarting server...");
 	faradenza::run_server(search);
 }

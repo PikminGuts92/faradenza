@@ -16,6 +16,7 @@ pub struct Address {
 }
 
 pub struct Search {
+	record_count: usize,
 	terms: Vec<String>,
 	term_counts: HashMap<u32, u32>
 }
@@ -23,6 +24,7 @@ pub struct Search {
 impl Search {
 	pub fn new() -> Search {
 		Search {
+			record_count: 0,
 			terms: Vec::new(),
 			term_counts: HashMap::new(),
 		}
@@ -57,19 +59,22 @@ impl Search {
 		}
 	}
 
-	pub fn get_terms(&self) -> Vec<String> {
+	pub fn get_terms_copied(&self) -> Vec<String> {
 		self.terms.to_vec()
 	}
 
-	pub fn len(&self) -> usize {
+	pub fn get_record_count(&self) -> usize {
+		self.record_count
+	}
+
+	pub fn get_term_count(&self) -> usize {
 		self.term_counts.len()
 	}
 
 	fn calculate_freqs(&mut self, data: &Vec<Address>) {
-		let mut c = 0;
+		let mut count = 0;
 		
 		for a in data {
-			c += 1;
 			let terms = a.street.split(" ");
 
 			for t in terms {
@@ -87,9 +92,9 @@ impl Search {
 
 				self.term_counts.insert(hash, freq);
 			}
+			count += 1;
 		}
 
-		println!("Found {} unique terms", self.len());
-		println!("Parsed {} records!", c);
+		self.record_count = count;
 	}
 }
